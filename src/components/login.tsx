@@ -16,7 +16,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
 
-import { LOGIN_MUTATION } from '../mutations';
+import { LOGIN_MUTATION, LoginDataTypes, LoginVariableTypes } from '../mutations';
 
 const styles = (theme: Theme) => createStyles({
     main: {
@@ -57,7 +57,7 @@ interface matchProps {
 interface LoginProps extends WithStyles<typeof styles>, RouteComponentProps<matchProps> {}
 
 const Login = (props: LoginProps) => {
-    const { classes } = props;
+    const { classes, match } = props;
 
     return (
         <main className={classes.main}>
@@ -67,7 +67,7 @@ const Login = (props: LoginProps) => {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Login
+                    Login {match.params.userType}
                 </Typography>
                 <LoginForm { ...props } />
             </Paper>
@@ -76,7 +76,7 @@ const Login = (props: LoginProps) => {
 };
 
 const LoginForm = (props: any) => {
-    const login = useMutation(LOGIN_MUTATION);
+    const login = useMutation<LoginDataTypes, LoginVariableTypes>(LOGIN_MUTATION);
     const [ username, setUsername ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ usernameErr, setUsernameErr ] = useState(false);
@@ -98,9 +98,18 @@ const LoginForm = (props: any) => {
                         }
                     }
                 ).then(
-                    result => console.log(result),
+                    (result: LoginDataTypes) => {
+                        const { login } = result;
+                        console.log(login);
+                        localStorage.setItem('token', login)
+                    },
                     error => {
-                        alert(error);
+                        console.error(error);
+
+                        const { graphQLErrors } = error;
+                        if (graphQLErrors) {
+                            alert(graphQLErrors)
+                        }
                         setUsernameErr(true);
                         setPasswordErr(true);
                     }

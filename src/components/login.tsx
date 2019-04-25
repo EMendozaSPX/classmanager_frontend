@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from 'react-apollo-hooks';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
+import { RouteComponentProps } from 'react-router-dom';
+import { createStyles, withStyles, WithStyles, Theme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
@@ -49,7 +50,13 @@ const styles = (theme: Theme) => createStyles({
     }
 });
 
-const Login = (props: any) => {
+interface matchProps {
+    userType: string
+}
+
+interface LoginProps extends WithStyles<typeof styles>, RouteComponentProps<matchProps> {}
+
+const Login = (props: LoginProps) => {
     const { classes } = props;
 
     return (

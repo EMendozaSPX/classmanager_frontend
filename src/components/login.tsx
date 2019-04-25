@@ -98,22 +98,30 @@ const LoginForm = (props: any) => {
                         }
                     }
                 ).then(
-                    (result: LoginDataTypes) => {
-                        const { login } = result;
-                        console.log(login);
-                        localStorage.setItem('token', login)
+                    (result) => {
+                        const { data } = result;
+                        localStorage.setItem('token', data.login)
                     },
                     error => {
                         console.error(error);
 
                         const { graphQLErrors } = error;
                         if (graphQLErrors) {
-                            graphQLErrors.foreach((item: any) => {
-                                console.log(item.message);
+                            graphQLErrors.forEach((item: any) => {
+                                switch (item.message) {
+                                    case `username of usertype ${match.params.userType} not found`:
+                                        alert(item.message);
+                                        setUsernameErr(true);
+                                        break;
+                                    case 'authentication failed':
+                                        alert(item.message);
+                                        setPasswordErr(true);
+                                        break;
+                                    default:
+                                        console.error(item.message);
+                                }
                             })
                         }
-                        setUsernameErr(true);
-                        setPasswordErr(true);
                     }
                 );
             }}
@@ -129,7 +137,10 @@ const LoginForm = (props: any) => {
                     name="username"
                     id="username"
                     value={username}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        setUsername(e.target.value);
+                        setUsernameErr(false)
+                    }}
                     autoComplete="username"
                 />
             </FormControl>
@@ -145,7 +156,10 @@ const LoginForm = (props: any) => {
                     id="password"
                     type={displayPassword ? 'text' : 'password'}
                     value={password}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        setPassword(e.target.value);
+                        setPasswordErr(false);
+                    }}
                     autoComplete="current-password"
                     endAdornment={
                         <InputAdornment position="end">

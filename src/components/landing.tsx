@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, withStyles, WithStyles, Theme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
@@ -26,11 +26,13 @@ const styles = (theme: Theme) => createStyles({
     }
 });
 
+interface LandingProps extends WithStyles<typeof styles> {}
+
 const LinkToAdmin = (props: any) => <Link to="/admin" {...props} />;
 const LinkToTeacher = (props: any) => <Link to="/teacher" {...props} />;
 const LinkToStudent = (props: any) => <Link to="/student" {...props} />;
 
-const Landing = (props: any) => {
+const Landing = (props: LandingProps) => {
     const { classes } = props;
 
     return (

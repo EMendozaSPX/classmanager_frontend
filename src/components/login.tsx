@@ -108,7 +108,9 @@ const LoginForm = (props: any) => {
 
                         const { graphQLErrors } = error;
                         if (graphQLErrors) {
-                            console.log(graphQLErrors)
+                            graphQLErrors.foreach((item: any) => {
+                                console.log(item.message);
+                            })
                         }
                         setUsernameErr(true);
                         setPasswordErr(true);

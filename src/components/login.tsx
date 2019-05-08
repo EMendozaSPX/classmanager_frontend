@@ -51,7 +51,7 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface matchProps {
-    userType: string
+    usertype: string
 }
 
 interface LoginProps extends WithStyles<typeof styles>, RouteComponentProps<matchProps> {}
@@ -67,7 +67,7 @@ const Login = (props: LoginProps) => {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Login {match.params.userType}
+                    Login {match.params.usertype}
                 </Typography>
                 <LoginForm { ...props } />
             </Paper>
@@ -92,7 +92,7 @@ const LoginForm = (props: any) => {
                 e.preventDefault();
                 login({
                         variables: {
-                            userType: match.params.userType,
+                            usertype: match.params.usertype,
                             username: username,
                             password: password
                         }
@@ -109,7 +109,7 @@ const LoginForm = (props: any) => {
                         if (graphQLErrors) {
                             graphQLErrors.forEach((item: any) => {
                                 switch (item.message) {
-                                    case `username of usertype ${match.params.userType} not found`:
+                                    case `username of usertype ${match.params.usertype} not found`:
                                         alert(item.message);
                                         setUsernameErr(true);
                                         break;

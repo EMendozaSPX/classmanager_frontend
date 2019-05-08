@@ -49,7 +49,7 @@ const App = () => {
                     <Switch>
                         <Route exact path="/" component={Landing} />
                         <Route exact path="/admin" component={AdminDashboard} />
-                        <Route path="/:usertype(admin|teacher|student)/login" component={Login} />
+                        <Route path="/:role(admin|teacher|student)/login" component={Login} />
                         <Route component={NoMatch} />
                     </Switch>
                 </MuiThemeProvider>

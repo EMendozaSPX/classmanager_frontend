@@ -14,7 +14,7 @@ const styles = (theme: Theme) => createStyles({
 const AdminDashboard = (props: any) => {
     const { data, error, loading } = useQuery(GET_AUTHORIZATION, {
         variables: {
-            usertype: 'admin'
+            role: 'admin'
         },
         suspend: false
     });

@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const GET_AUTHORIZATION = gql`
-    query GetAuthorization($usertype: usertype!) {
-        getAuthoriaztion(usertype: $usertype)
+    query GetAuthorization($role: role!) {
+        getAuthorization(role: $role)
     }
     `;
 

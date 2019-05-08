@@ -1,14 +1,14 @@
 import gql from 'graphql-tag';
 
-export enum UserType {
+export enum Role {
     Admin = 'admin',
     Teacher = 'teacher',
     Student = 'student',
 }
 
 const LOGIN_MUTATION = gql`
-    mutation Login($usertype: usertype!, $username: String!, $password: String!) {
-        login(usertype: $usertype, username: $username, password: $password)
+    mutation Login($role: role!, $username: String!, $password: String!) {
+        login(role: $role, username: $username, password: $password)
     }
 `;
 
@@ -17,7 +17,7 @@ export interface LoginDataTypes {
 }
 
 export interface LoginVariableTypes {
-    usertype: UserType,
+    role: Role,
     username: string,
     password: string
 }

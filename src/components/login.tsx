@@ -51,7 +51,7 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface matchProps {
-    usertype: string
+    role: string
 }
 
 interface LoginProps extends WithStyles<typeof styles>, RouteComponentProps<matchProps> {}
@@ -59,7 +59,7 @@ interface LoginProps extends WithStyles<typeof styles>, RouteComponentProps<matc
 const Login = (props: LoginProps) => {
     const { classes, match } = props;
 
-    if (localStorage.getItem('token')) return <Redirect to={`/${match.params.userType}`} />;
+    if (localStorage.getItem('token')) return <Redirect to={`/${match.params.role}`} />;
 
     return (
         <main className={classes.main}>
@@ -69,7 +69,7 @@ const Login = (props: LoginProps) => {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Login {match.params.usertype}
+                    Login {match.params.role}
                 </Typography>
                 <LoginForm { ...props } />
             </Paper>
@@ -94,7 +94,7 @@ const LoginForm = (props: any) => {
                 e.preventDefault();
                 login({
                         variables: {
-                            usertype: match.params.usertype,
+                            role: match.params.role,
                             username: username,
                             password: password
                         }
@@ -111,7 +111,7 @@ const LoginForm = (props: any) => {
                         if (graphQLErrors) {
                             graphQLErrors.forEach((item: any) => {
                                 switch (item.message) {
-                                    case `username of usertype ${match.params.usertype} not found`:
+                                    case `username with role ${match.params.role} not found`:
                                         alert(item.message);
                                         setUsernameErr(true);
                                         break;

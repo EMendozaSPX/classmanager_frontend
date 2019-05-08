@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from 'react-apollo-hooks';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { createStyles, withStyles, WithStyles, Theme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
@@ -58,6 +58,8 @@ interface LoginProps extends WithStyles<typeof styles>, RouteComponentProps<matc
 
 const Login = (props: LoginProps) => {
     const { classes, match } = props;
+
+    if (localStorage.getItem('token')) return <Redirect to={`/${match.params.userType}`} />;
 
     return (
         <main className={classes.main}>

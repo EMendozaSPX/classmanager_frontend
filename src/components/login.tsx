@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from 'react-apollo-hooks';
-import { RouteComponentProps, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { createStyles, withStyles, WithStyles, Theme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
@@ -50,16 +50,13 @@ const styles = (theme: Theme) => createStyles({
     }
 });
 
-interface matchProps {
-    role: string
-}
-
-interface LoginProps extends WithStyles<typeof styles>, RouteComponentProps<matchProps> {}
+interface LoginProps extends WithStyles<typeof styles>{}
 
 const Login = (props: LoginProps) => {
-    const { classes, match } = props;
+    const { classes } = props;
+    const Role = localStorage.getItem("userRole");
 
-    if (localStorage.getItem('token')) return <Redirect to={`/${match.params.role}`} />;
+    if (localStorage.getItem("token")) return <Redirect to={`/${Role}`} />;
 
     return (
         <main className={classes.main}>
@@ -69,7 +66,7 @@ const Login = (props: LoginProps) => {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Login {match.params.role}
+                    Login {Role}
                 </Typography>
                 <LoginForm { ...props } />
             </Paper>
@@ -85,7 +82,7 @@ const LoginForm = (props: any) => {
     const [ passwordErr, setPasswordErr ] = useState(false);
     const [ displayPassword, setDisplayPassword ] = useState(false);
 
-    const { classes, match } = props;
+    const { classes } = props;
 
     return (
         <form
@@ -94,7 +91,6 @@ const LoginForm = (props: any) => {
                 e.preventDefault();
                 login({
                         variables: {
-                            role: match.params.role,
                             username: username,
                             password: password
                         }
@@ -102,7 +98,8 @@ const LoginForm = (props: any) => {
                 ).then(
                     (result) => {
                         const { data } = result;
-                        localStorage.setItem('token', data.login)
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('userRole', data.role);
                     },
                     error => {
                         console.error(error);
@@ -111,7 +108,7 @@ const LoginForm = (props: any) => {
                         if (graphQLErrors) {
                             graphQLErrors.forEach((item: any) => {
                                 switch (item.message) {
-                                    case `username with role ${match.params.role} not found`:
+                                    case 'username not found':
                                         alert(item.message);
                                         setUsernameErr(true);
                                         break;

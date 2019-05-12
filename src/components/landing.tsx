@@ -28,9 +28,7 @@ const styles = (theme: Theme) => createStyles({
 
 interface LandingProps extends WithStyles<typeof styles> {}
 
-const LinkToAdmin = (props: any) => <Link to="/admin" {...props} />;
-const LinkToTeacher = (props: any) => <Link to="/teacher" {...props} />;
-const LinkToStudent = (props: any) => <Link to="/student" {...props} />;
+const LinkToLogin = (props: any) => <Link to="/login" {...props} />;
 
 const Landing = (props: LandingProps) => {
     const { classes } = props;
@@ -61,23 +59,9 @@ const Landing = (props: LandingProps) => {
                             <Button
                                 variant="outlined"
                                 color="secondary"
-                                component={LinkToAdmin}
+                                component={LinkToLogin}
                             >
-                                To Admin Panel
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                color="secondary"
-                                component={LinkToTeacher}
-                            >
-                                To Teacher Panel
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                color="secondary"
-                                component={LinkToStudent}
-                            >
-                                To Student Panel
+                                Continue
                             </Button>
                         </div>
                     </Paper>

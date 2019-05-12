@@ -7,17 +7,20 @@ export enum Role {
 }
 
 const LOGIN_MUTATION = gql`
-    mutation Login($role: role!, $username: String!, $password: String!) {
-        login(role: $role, username: $username, password: $password)
+    mutation Login($username: String!, $password: String!) {
+        login(username: $username, password: $password) {
+            token
+            role
+        }
     }
 `;
 
 export interface LoginDataTypes {
-    login: string
+    token: string,
+    role: string,
 }
 
 export interface LoginVariableTypes {
-    role: Role,
     username: string,
     password: string
 }

@@ -21,9 +21,10 @@ const AdminDashboard = (props: any) => {
     if (loading) return <Typography variant="h4" gutterBottom>Loading...</Typography>;
     if (error || !data.access) {
         if (error) {
-            console.log(error);
+            console.error(error);
         }
-        return <Redirect to="/admin/login"/>;
+        localStorage.clear();
+        return <Redirect to="/login"/>;
     }
 
     return (

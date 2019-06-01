@@ -8,7 +8,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 import Landing from './landing';
-import AdminDashboard from './admin/dashboard';
+import TeacherDashboard from './teacher/dashboard';
 import Login from './login';
 import NoMatch from './no-match';
 
@@ -48,7 +48,7 @@ const App = () => {
                 <MuiThemeProvider theme={theme}>
                     <Switch>
                         <Route exact path="/" component={Landing} />
-                        <Route exact path="/admin" component={AdminDashboard} />
+                        <Route exact path="/dashboard" component={TeacherDashboard} />
                         <Route path="/login" component={Login} />
                         <Route component={NoMatch} />
                     </Switch>

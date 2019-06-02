@@ -1,19 +1,30 @@
-import {createStyles, Theme, WithStyles} from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
-import React from "react";
+import React from 'react';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
-const styles = (theme: Theme) => createStyles({
+import TitleBar from '../titlebar';
+
+
+const useStyles = makeStyles((theme: Theme) => ({
     root: {
-        display: 'flex'
+        display: 'flex',
+    },
+    menuButton: {
+        marginRight: theme.spacing(2)
+    },
+    title: {
+        flexGrow: 1
     }
-});
+}));
 
-interface TeacherDashProps extends WithStyles<typeof styles> {}
+interface TeacherDashProps{}
 
 const TeacherDashboard = (props: TeacherDashProps) => {
+    const authToken = localStorage.getItem('auth-token');
+    const classes = useStyles();
     return (
-        <h1>Hello Teacher</h1>
+        <div className="root">
+            <TitleBar Title="Dashboard"/>
+        </div>
     )
-}
-
-export default withStyles(styles)(TeacherDashboard);
+};
+export default TeacherDashboard;

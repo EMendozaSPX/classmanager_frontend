@@ -5,7 +5,8 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
 
 import Landing from './landing';
 import TeacherDashboard from './teacher/dashboard';
@@ -17,7 +18,7 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('auth-token');
     return {
         headers: {
             ...headers,
@@ -45,14 +46,14 @@ const App = () => {
     return (
         <Router>
             <ApolloProvider client={client}>
-                <MuiThemeProvider theme={theme}>
+                <ThemeProvider theme={theme}>
                     <Switch>
                         <Route exact path="/" component={Landing} />
                         <Route exact path="/dashboard" component={TeacherDashboard} />
                         <Route path="/login" component={Login} />
                         <Route component={NoMatch} />
                     </Switch>
-                </MuiThemeProvider>
+                </ThemeProvider>
             </ApolloProvider>
         </Router>
     )

@@ -45,7 +45,7 @@ const LoginForm = () => {
                 ).then(
                     (result) => {
                         const { data } = result;
-                        console.log(data.token);
+                        console.log(data);
                         localStorage.setItem('auth-token', data.token);
                     },
                     error => {

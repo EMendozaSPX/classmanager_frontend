@@ -43,10 +43,10 @@ const LoginForm = () => {
                         }
                     }
                 ).then(
-                    (result) => {
-                        console.log(result);
-                        const { data } = result;
-                        localStorage.setItem('auth-token', data.token);
+                    ({ data }) => {
+                        const { login } = data;
+                        console.log(login["token"]);
+                        localStorage.setItem('auth-token', login["token"]);
                     },
                     error => {
                         console.error(error);

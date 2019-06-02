@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from 'react-apollo-hooks';
-import {makeStyles, Theme} from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
@@ -45,8 +45,8 @@ const LoginForm = () => {
                 ).then(
                     (result) => {
                         const { data } = result;
-                        localStorage.setItem('token', data.token);
-                        localStorage.setItem('userRole', data.role);
+                        console.log(data.token);
+                        localStorage.setItem('auth-token', data.token);
                     },
                     error => {
                         console.error(error);

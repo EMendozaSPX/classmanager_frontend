@@ -29,8 +29,9 @@ interface LoginProps{}
 
 const Login = (props: LoginProps) => {
     const classes = useStyles();
+    const token = localStorage.getItem('auth-token');
 
-    if (localStorage.getItem("auth-token")) return <Redirect to={`/dashboard`} />;
+    if (token) return <Redirect to={`/dashboard`} />;
 
     return (
         <Container component="main" maxWidth="xs">

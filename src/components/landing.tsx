@@ -58,7 +58,7 @@ const Landing = () => {
                                 component={LinkAdapter}
                                 to="/dashboard"
                             >
-                                Continue
+                                Teacher Dashboard
                             </Button>
                         </div>
                     </Paper>

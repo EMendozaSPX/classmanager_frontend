@@ -131,14 +131,4 @@ const LoginForm = () => {
         </form>
     )
 };
-
-const _confirm = async () => {
-
-
-};
-
-const _saveUserData = (token: string) => {
-    localStorage.setItem('auth-token', token);
-};
-
 export default LoginForm

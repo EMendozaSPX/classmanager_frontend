@@ -28,7 +28,7 @@ const Timetable = (props: TimetableProps) => {
         (value: ViewTimetableType) => {
             const { weekday, periods } = value;
             return (
-                <Grid 
+                <Grid
                     container
                     direction="column"
                     justify="center"

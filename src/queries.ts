@@ -1,9 +1,35 @@
 import gql from 'graphql-tag';
 
-const GET_AUTHORIZATION = gql`
-    query GetAuthorization($role: role!) {
-        getAuthorization(role: $role)
-    }
-    `;
+const VERIFY_AUTHORIZATION = gql`
+query VerifyAuthorization($role: role!) {
+    verifyAuthorization(role: $role)
+}
+`;
 
-export { GET_AUTHORIZATION }
+const VIEW_TIMETABLE = gql`
+query ViewTimetable($teacherId: int!) {
+    viewTimetable(teacherId: $teacherId) {
+        weekday
+        periods {
+            periodName
+            class
+            startTime
+            endTime
+        }
+    }
+}
+`;
+
+interface periodType{
+    periodName: string,
+    class: string,
+    startTime: string,
+    endTime: string
+}
+
+export interface ViewTimetableType{
+    weekday: number,
+    periods: [periodType]
+}
+
+export { VERIFY_AUTHORIZATION, VIEW_TIMETABLE }

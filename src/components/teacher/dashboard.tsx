@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import AppBar from "@material-ui/core/AppBar";
 
-import { GET_AUTHORIZATION } from '../../queries'
+import { VERIFY_AUTHORIZATION } from '../../queries'
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface TeacherDashProps{}
 
 const TeacherDashboard = (props: TeacherDashProps) => {
-    const authToken = localStorage.getItem('auth-token');
     const classes = useStyles();
 
     const [login, setLogin] = useState(false);
@@ -34,14 +33,14 @@ const TeacherDashboard = (props: TeacherDashProps) => {
         setLogin(false);
     };
 
-    const { data } = useQuery(GET_AUTHORIZATION, {
+    const { data } = useQuery(VERIFY_AUTHORIZATION, {
         suspend: false,
         variables: {
             role: 'teacher'
         }
     });
 
-    setLogin(data['value']);
+    setLogin(data['verifyAuthorization']);
     if (!login) return <Redirect to="/login" />;
 
     return (

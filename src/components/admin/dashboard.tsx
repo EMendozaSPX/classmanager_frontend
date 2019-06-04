@@ -6,7 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 
-import { GET_AUTHORIZATION } from '../../queries';
+import { VERIFY_AUTHORIZATION } from '../../queries';
 
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -18,7 +18,7 @@ interface AdminDashProps extends WithStyles<typeof styles>{}
 
 const AdminDashboard = (props: AdminDashProps) => {
     const { classes } = props;
-    const { data, error, loading } = useQuery(GET_AUTHORIZATION, {
+    const { data, error, loading } = useQuery(VERIFY_AUTHORIZATION, {
         variables: {
             role: 'admin'
         },

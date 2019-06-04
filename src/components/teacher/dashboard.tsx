@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery } from 'react-apollo-hooks';
 import { Redirect } from 'react-router-dom';
 import { makeStyles, Theme } from '@material-ui/core/styles';
@@ -25,13 +25,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface TeacherDashProps{}
 
 const TeacherDashboard = (props: TeacherDashProps) => {
+    const authToken = localStorage.getItem('auth-token');
     const classes = useStyles();
 
-    const [login, setLogin] = useState(false);
-
     const handleLogout = () => {
-        localStorage.clear();
-        setLogin(false);
+        localStorage.removeItem('auth-token');
     };
 
     const { data } = useQuery(VERIFY_AUTHORIZATION, {
@@ -41,8 +39,9 @@ const TeacherDashboard = (props: TeacherDashProps) => {
         }
     });
 
-    setLogin(data['verifyAuthorization']);
-    if (!login) return <Redirect to="/login" />;
+    if (data['verifyAuthorization']) handleLogout();
+
+    if (!authToken) return <Redirect to="/login" />;
 
     return (
         <div className="root">

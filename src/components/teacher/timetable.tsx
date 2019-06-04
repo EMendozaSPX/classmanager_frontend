@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import { VIEW_TIMETABLE, ViewTimetableType } from '../../queries';
+import { VIEW_TIMETABLE, ViewTimetableType, PeriodType } from '../../queries';
 
 interface TimetableProps {
     teacherId: number
@@ -24,28 +24,42 @@ const Timetable = (props: TimetableProps) => {
     if (loading) return <CircularProgress />;
     if (error) return <Typography variant="h5">{error}</Typography>;
 
-    const timetableColumns = viewTimetable.map((_: null, value: ViewTimetableType) => {
-        return (
-            <Grid
-                container
-                direction="column"
-                justify="center"
-                alignItems="center"
-                spacing={2}
-            >
-                <Grid item xs>
-                    <Paper>{value['weekday']}</Paper>
+    const timetableColumns = viewTimetable.map(
+        (value: ViewTimetableType) => {
+            const { weekday, periods } = value;
+            return (
+                <Grid 
+                    container
+                    direction="column"
+                    justify="center"
+                    alignItems="center"
+                    spacing={2}
+                >
+                    <Grid item xs>
+                        <Paper>
+                            <Typography variant="subtitle1" gutterBottom>{weekday}</Typography>
+                        </Paper>
+                        {periods.map(
+                            (period: PeriodType) => {
+                                return (
+                                    <Paper>
+                                        <Typography variant="subtitle2" gutterBottom>{period['periodName']}</Typography>
+                                        <Typography variant="subtitle2" gutterBottom>{period['class']}</Typography>
+                                        <Typography variant="subtitle2" gutterBottom>{period['startTime']}</Typography>
+                                        <Typography variant="subtitle2" gutterBottom>{period['endTime']}</Typography>
+                                    </Paper>
+                                )
+                            }
+                        )}
+                    </Grid>
                 </Grid>
-                
-        )
-    }
+            )
+        }
+    );
     return (
-
-            {viewTimetable.map((_: null, values: ViewTimetableType) => {
-                const { weekday, periods } = values;
-                <Grid item xs={12}>
-                    <Paper></Paper>
-            })
-            }
+        <div>
+            {timetableColumns}
+        </div>
     )
 };
+export default Timetable;

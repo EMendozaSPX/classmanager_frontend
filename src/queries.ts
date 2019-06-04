@@ -20,7 +20,7 @@ query ViewTimetable($teacherId: int!) {
 }
 `;
 
-interface periodType{
+export interface PeriodType{
     periodName: string,
     class: string,
     startTime: string,
@@ -29,7 +29,7 @@ interface periodType{
 
 export interface ViewTimetableType{
     weekday: number,
-    periods: [periodType]
+    periods: [PeriodType]
 }
 
 export { VERIFY_AUTHORIZATION, VIEW_TIMETABLE }

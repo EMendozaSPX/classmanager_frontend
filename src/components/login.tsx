@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter, RouteComponentProps } from 'react-router-dom';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-interface LoginProps{}
+interface LoginProps extends RouteComponentProps {}
 
 const Login = (props: LoginProps) => {
     const classes = useStyles();
@@ -49,4 +49,4 @@ const Login = (props: LoginProps) => {
     )
 };
 
-export default Login
+export default withRouter(Login);

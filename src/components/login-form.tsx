@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from 'react-apollo-hooks';
+import { RouteComponentProps } from 'react-router-dom';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -22,7 +23,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const LoginForm = () => {
+interface LoginFormPropTypes extends RouteComponentProps {}
+
+const LoginForm = (props: LoginFormPropTypes) => {
     const login = useMutation<LoginDataTypes, LoginVariableTypes>(LOGIN_MUTATION);
     const classes = useStyles();
     const [ username, setUsername ] = useState('');
@@ -47,6 +50,7 @@ const LoginForm = () => {
                         const { login } = data;
                         console.log(login["token"]);
                         localStorage.setItem('auth-token', login["token"]);
+                        props.history.push('/dashboard')
                     },
                     error => {
                         console.error(error);

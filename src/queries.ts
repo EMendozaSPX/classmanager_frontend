@@ -7,12 +7,12 @@ query VerifyAuthorization($role: role!) {
 `;
 
 const VIEW_TIMETABLE = gql`
-query ViewTimetable($teacherId: int!) {
+query ViewTimetable($teacherId: Int!) {
     viewTimetable(teacherId: $teacherId) {
-        weekday
+        weekdays
+        classes
         periods {
             periodName
-            class
             startTime
             endTime
         }

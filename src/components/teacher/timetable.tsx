@@ -2,8 +2,12 @@ import React from 'react';
 import { useQuery } from 'react-apollo-hooks';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 
 import { VIEW_TIMETABLE, ViewTimetableType, PeriodType } from '../../queries';
 
@@ -23,43 +27,25 @@ const Timetable = (props: TimetableProps) => {
 
     if (loading) return <CircularProgress />;
     if (error) return <Typography variant="h5">{error}</Typography>;
+    console.log(viewTimetable);
 
-    const timetableColumns = viewTimetable.map(
-        (value: ViewTimetableType) => {
-            const { weekday, periods } = value;
-            return (
-                <Grid
-                    container
-                    direction="column"
-                    justify="center"
-                    alignItems="center"
-                    spacing={2}
-                >
-                    <Grid item xs>
-                        <Paper>
-                            <Typography variant="subtitle1" gutterBottom>{weekday}</Typography>
-                        </Paper>
-                        {periods.map(
-                            (period: PeriodType) => {
-                                return (
-                                    <Paper>
-                                        <Typography variant="subtitle2" gutterBottom>{period['periodName']}</Typography>
-                                        <Typography variant="subtitle2" gutterBottom>{period['class']}</Typography>
-                                        <Typography variant="subtitle2" gutterBottom>{period['startTime']}</Typography>
-                                        <Typography variant="subtitle2" gutterBottom>{period['endTime']}</Typography>
-                                    </Paper>
-                                )
-                            }
-                        )}
-                    </Grid>
-                </Grid>
-            )
-        }
-    );
+    const { classes, periods, weekdays } = data['viewTimetable'];
+
     return (
-        <div>
-            {timetableColumns}
-        </div>
+        <Paper>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Period</TableCell>
+                        {weekdays.map((row: number) => {
+                            return (
+                                <TableCell align="right">{`Day {row}`}</TableCell>
+                            )
+                        })}
+                    </TableRow>
+                </TableHead>
+            </Table>
+        </Paper>
     )
 };
 export default Timetable;

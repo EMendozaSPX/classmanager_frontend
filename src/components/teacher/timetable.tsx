@@ -28,7 +28,7 @@ const Timetable = (props: TimetableProps) => {
 
     const [ dayVal, setDayVal ] = useState(0);
     const handleChange = (e: React.ChangeEvent<{}>, val: number) => {
-        setDayVal(val-1);
+        setDayVal(val);
     };
 
     const { viewTimetable } = data;

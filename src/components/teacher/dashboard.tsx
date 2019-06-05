@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-apollo-hooks';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter, RouteComponentProps } from 'react-router-dom';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-interface TeacherDashProps{}
+interface TeacherDashProps extends RouteComponentProps {}
 
 const TeacherDashboard = (props: TeacherDashProps) => {
     const authToken = localStorage.getItem('auth-token');
@@ -30,6 +30,7 @@ const TeacherDashboard = (props: TeacherDashProps) => {
 
     const handleLogout = () => {
         localStorage.removeItem('auth-token');
+        props.history.push('/');
     };
 
     const { data } = useQuery(VERIFY_AUTHORIZATION, {
@@ -39,8 +40,7 @@ const TeacherDashboard = (props: TeacherDashProps) => {
         }
     });
 
-    if (data['verifyAuthorization']) handleLogout();
-
+    if (!data['verifyAuthorization']) handleLogout();
     if (!authToken) return <Redirect to="/login" />;
 
     return (

@@ -46,7 +46,7 @@ const TeacherDashboard = (props: TeacherDashProps) => {
                     <Button color="inherit" onClick={handleLogout}>Logout</Button>
                 </Toolbar>
             </AppBar>
-            <Timetable teacherId={3} />
+            <Timetable teacherId={id} />
         </div>
     )
 };

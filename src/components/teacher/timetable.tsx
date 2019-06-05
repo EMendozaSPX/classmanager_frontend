@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-apollo-hooks';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -23,6 +26,11 @@ const Timetable = (props: TimetableProps) => {
         }
     });
 
+    const [ dayVal, setDayVal ] = useState(0);
+    const handleChange = (e: React.ChangeEvent<{}>, val: number) => {
+        setDayVal(val);
+    };
+
     const { viewTimetable } = data;
 
     if (loading) return <CircularProgress />;
@@ -30,22 +38,36 @@ const Timetable = (props: TimetableProps) => {
     console.log(viewTimetable);
 
     const { classes, periods, weekdays } = data['viewTimetable'];
+    console.log(periods);
+    console.log(classes);
 
     return (
-        <Paper>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Period</TableCell>
-                        {weekdays.map((row: number) => {
-                            return (
-                                <TableCell align="right">{`Day {row}`}</TableCell>
-                            )
-                        })}
-                    </TableRow>
-                </TableHead>
-            </Table>
-        </Paper>
+        <div>
+            <AppBar position="static">
+                <Tabs value={dayVal} onChange={handleChange}>
+                    {weekdays.map((val: number) => {
+                        return (
+                            <Tab label={`Day ${val}`} />
+                        )
+                    })}
+                </Tabs>
+            </AppBar>
+            <Paper>
+                <Table size="small">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Period</TableCell>
+                            <TableCell align="right">startTime</TableCell>
+                            <TableCell align="right">endTime</TableCell>
+                            <TableCell align="right">class</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+
+                    </TableBody>
+                </Table>
+            </Paper>
+        </div>
     )
 };
 export default Timetable;

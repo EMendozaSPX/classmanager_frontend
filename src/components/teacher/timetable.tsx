@@ -28,7 +28,7 @@ const Timetable = (props: TimetableProps) => {
 
     const [ dayVal, setDayVal ] = useState(0);
     const handleChange = (e: React.ChangeEvent<{}>, val: number) => {
-        setDayVal(val);
+        setDayVal(val-1);
     };
 
     const { viewTimetable } = data;
@@ -63,7 +63,18 @@ const Timetable = (props: TimetableProps) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-
+                        {classes[dayVal].map((name: string, i: number) => {
+                            return (
+                                <TableRow key={periods[i].periodName}>
+                                    <TableCell component="th" scope="row">
+                                        {periods[i].periodName}
+                                    </TableCell>
+                                    <TableCell align="right">{periods[i].startTime}</TableCell>
+                                    <TableCell align="right">{periods[i].endTime}</TableCell>
+                                    <TableCell align="right">{name}</TableCell>
+                                </TableRow>
+                            )
+                        })}
                     </TableBody>
                 </Table>
             </Paper>

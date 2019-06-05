@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import jwt from 'jsonwebtoken';
+import jwt_decode from 'jwt-decode';
 import { Redirect, withRouter, RouteComponentProps } from 'react-router-dom';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Toolbar from "@material-ui/core/Toolbar";
@@ -28,6 +28,16 @@ const TeacherDashboard = (props: TeacherDashProps) => {
     const classes = useStyles();
 
     const [ id, setId ] = useState(0);
+    const [ role, setRole ] = useState('');
+    const [ username, setUsername ] = useState('');
+    const [ email, setEmail ] = useState('');
+
+    const decodedToken = jwt_decode(authToken);
+    console.log(decodedToken);
+    setId(decodedToken['id']);
+    setRole(decodedToken['role']);
+    setUsername(decodedToken['username']);
+    setEmail(decodedToken['email']);
 
     const handleLogout = () => {
         localStorage.removeItem('auth-token');
@@ -35,6 +45,8 @@ const TeacherDashboard = (props: TeacherDashProps) => {
     };
 
     if (!authToken) return <Redirect to="/login" />;
+
+
 
     return (
         <div className="root">
@@ -46,7 +58,7 @@ const TeacherDashboard = (props: TeacherDashProps) => {
                     <Button color="inherit" onClick={handleLogout}>Logout</Button>
                 </Toolbar>
             </AppBar>
-            <Timetable teacherId={3} />
+            <Timetable teacherId={id} />
         </div>
     )
 };

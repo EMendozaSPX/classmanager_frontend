@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from 'react-apollo-hooks';
+import jwt from 'jsonwebtoken';
 import { Redirect, withRouter, RouteComponentProps } from 'react-router-dom';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Toolbar from "@material-ui/core/Toolbar";
@@ -7,7 +7,6 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import AppBar from "@material-ui/core/AppBar";
 
-import { VERIFY_AUTHORIZATION } from '../../queries'
 import Timetable from './timetable';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -28,19 +27,13 @@ const TeacherDashboard = (props: TeacherDashProps) => {
     const authToken = localStorage.getItem('auth-token');
     const classes = useStyles();
 
+    if (authToken) console.log(jwt.decode(authToken));
+
     const handleLogout = () => {
         localStorage.removeItem('auth-token');
         props.history.push('/');
     };
 
-    const { data } = useQuery(VERIFY_AUTHORIZATION, {
-        suspend: false,
-        variables: {
-            role: 'teacher'
-        }
-    });
-
-    if (!data['verifyAuthorization']) handleLogout();
     if (!authToken) return <Redirect to="/login" />;
 
     return (

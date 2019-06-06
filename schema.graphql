@@ -1,0 +1,159 @@
+type BehaviourNote {
+    id: Int
+    name: String
+    note: String
+    timeStamp: DateTime
+}
+
+# Class Type
+type Class {
+    classId: String
+    id: Int
+    students: [User]
+    teacher: User
+}
+
+# The `DateTime` scalar type represents a DateTime. The DateTime is serialized as an RFC 3339 quoted string
+scalar DateTime
+
+type Login {
+    token: String
+    user: User
+}
+
+type Mutation {
+    # create a behaviour note for a student
+    createBehaviourNote(
+        classStudentId: Int!
+        name: String!
+        note: String!
+    ): BehaviourNote
+
+    # Add a class to database
+    createClass(teacherId: Int!, classId: String!): Class
+
+    # Create a class task
+    createClassTask(
+         classId: Int!
+         name: String!
+         description: String!
+         totalMarks: Int!
+         dueTime: DateTime!
+    ): Task
+
+    # Create a task mark
+    createTaskMark(
+        taskId: Int!
+        studentClassId: Int!
+        taskMark: Int!
+        feedback: String!
+     ): TaskMark
+
+    # Create timetable entry
+    createTimetableEntry(
+        classId: Int!
+        periodName: String!
+        weekday: Int!
+    ): period
+
+# Create a new user.
+createUser(
+role: role!
+username: String!
+email: String!
+password: String!
+): User
+# Delete a behaviour note
+deleteBehaviourNote(id: Int!): BehaviourNote
+# Delete class task
+deleteClassTask(id: Int!): Task
+# Remove a user from database.
+deleteUser(id: Int!): User
+# Sign in users through json web tokens.
+login(password: String!, username: String!): Login
+# Update a behaviour note
+updateBehaviourNote(id: Int!, name: String!, note: String!): BehaviourNote
+# Update a class task
+updateClassTask(
+dueTime: DateTime!
+id: Int!
+name: String!
+description: String!
+totalMarks: Int!
+): Task
+# Update a users information.
+updateUser(
+id: Int!
+role: role
+username: String
+email: String
+password: String
+): User
+}
+
+# A period entry object type
+type period {
+endTime: String
+periodName: String
+startTime: String
+}
+
+type Query {
+# List the names of a teachers classes
+listTeachersClasses(teacherId: Int!): [Class]
+# Get a list users of a certain usertype
+listUsers: [User]
+# Read a behaviour note
+readBehaviourNote(id: Int!): BehaviourNote
+# Read a class task
+readClassTask(id: Int!): Task
+# Get a user from database
+readUser(id: Int!): User
+# Provides a user access to a particular site
+verifyAuthorization(role: role!): Boolean
+# Get a user from database
+viewTimetable(teacherId: Int!): timetable
+}
+
+# A enum selection of user roles
+enum role {
+# The Admin User
+admin
+# The Teacher User
+teacher
+# The Student User
+student
+}
+
+# Task Type
+type Task {
+description: String
+dueTime: DateTime
+id: Int
+name: String
+totalMarks: Int
+}
+
+# Task Mark Type
+type TaskMark {
+feedback: String
+id: Int
+task: Task
+taskMark: Int
+timeStamp: DateTime
+}
+
+# A timetable entry object
+type timetable {
+classes: [[String]]
+periods: [period]
+weekdays: [String]
+}
+
+type User {
+email: String
+id: Int
+role: role
+username: String
+}
+

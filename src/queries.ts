@@ -20,6 +20,40 @@ query ViewTimetable($teacherId: Int!) {
 }
 `;
 
+const LIST_CLASSES = gql`
+query ListClasses($teacherId: Int!) {
+    listTeachersClasses(teacherId: $teacherId) {
+        id
+        classId
+        teacher {
+            id
+            role
+            username
+            email
+        }
+        students {
+            id
+            role
+            username
+            email
+        }
+    }
+}`;
+
+export interface UserType{
+    id: number,
+    role: string,
+    username: string,
+    email: string
+}
+
+export interface ClassType{
+    id: number,
+    classId: string,
+    teacher: UserType,
+    students: [UserType]
+}
+
 export interface PeriodType{
     periodName: string,
     class: string,
@@ -32,4 +66,4 @@ export interface ViewTimetableType{
     periods: [PeriodType]
 }
 
-export { VERIFY_AUTHORIZATION, VIEW_TIMETABLE }
+export { VERIFY_AUTHORIZATION, VIEW_TIMETABLE, LIST_CLASSES }

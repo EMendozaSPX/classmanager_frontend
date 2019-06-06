@@ -10,6 +10,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 
 import Landing from './landing';
 import TeacherDashboard from './teacher/dashboard';
+import ClassView from './teacher/class';
 import Login from './login';
 import NoMatch from './no-match';
 
@@ -50,6 +51,7 @@ const App = () => {
                     <Switch>
                         <Route exact path="/" component={Landing} />
                         <Route exact path="/dashboard" component={TeacherDashboard} />
+                        <Route path="/dashboard/:id" component={ClassView} />
                         <Route path="/login" component={Login} />
                         <Route component={NoMatch} />
                     </Switch>

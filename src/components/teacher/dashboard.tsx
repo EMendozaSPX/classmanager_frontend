@@ -8,8 +8,9 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import AppBar from "@material-ui/core/AppBar";
 
-import LinkAdapter from '../link-adapter';
+
 import Timetable from './timetable';
+import ListClasses from './classes-list';
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -58,14 +59,7 @@ const TeacherDashboard = (props: TeacherDashProps) => {
                 </Toolbar>
             </AppBar>
             <Timetable teacherId={_teacherId()} />
-            <Button
-                variant="outlined"
-                color="primary"
-                component={LinkAdapter}
-                to="/dashboard/classes"
-            >
-                View a list of classes
-            </Button>
+            <ListClasses teacherId={_teacherId()} />
         </div>
     )
 };

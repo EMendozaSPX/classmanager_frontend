@@ -51,15 +51,16 @@ const Timetable = (props: TimetableProps) => {
 
     const { viewTimetable } = data;
 
-    if (loading) return <CircularProgress  />;
+    if (loading) return <CircularProgress size="70" />;
     if (error) return <Typography variant="h5">{error}</Typography>;
     console.log(viewTimetable);
 
     return (
         <div className={classes.root}>
+            <Typography variant="h4">The Timetable</Typography>
             <AppBar position="static">
-                <Tabs 
-                    value={dayVal} 
+                <Tabs
+                    value={dayVal}
                     onChange={handleChange}
                     variant="scrollable"
                     scrollButtons="auto"

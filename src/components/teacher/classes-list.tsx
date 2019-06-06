@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery } from 'react-apollo-hooks';
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -12,7 +13,7 @@ import LinkAdapter from '../link-adapter';
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
-        width: '100%'
+        padding: theme.spacing(3, 2)
     }
 }));
 
@@ -36,7 +37,7 @@ const ListClasses = (props: ListClassesProps) => {
     if (error) return <Typography variant="h4">error {error}</Typography>;
 
     return (
-        <div className={classes.root}>
+        <Paper className={classes.root}>
             <List component="nav" aria-label="List teachers classes">
                 {listTeachersClasses.map((classData: ClassType) => {
                     return (
@@ -53,7 +54,7 @@ const ListClasses = (props: ListClassesProps) => {
                     )
                 })}
             </List>
-        </div>
+        </Paper>
     )
 };
 export default ListClasses;

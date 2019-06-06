@@ -13,6 +13,10 @@ import LinkAdapter from '../link-adapter';
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
+        padding: theme.spacing(2)
+    },
+    paper: {
+        marginTop: theme.spacing(3),
         padding: theme.spacing(3, 2)
     }
 }));
@@ -33,28 +37,31 @@ const ListClasses = (props: ListClassesProps) => {
 
     const { listTeachersClasses } = data;
 
-    if (loading) return <CircularProgress size="100" />;
+    if (loading) return <CircularProgress size="70" />;
     if (error) return <Typography variant="h4">error {error}</Typography>;
 
     return (
-        <Paper className={classes.root}>
-            <List component="nav" aria-label="List teachers classes">
-                {listTeachersClasses.map((classData: ClassType) => {
-                    return (
-                        <ListItem
-                            button
-                            component={LinkAdapter}
-                            to={{
-                                pathname: `/dashboard/${classData.id}`,
-                                state: { classData: classData}
-                            }}
-                        >
-                            <ListItemText primary={classData.classId}/>
-                        </ListItem>
-                    )
-                })}
-            </List>
-        </Paper>
+        <div className={classes.root}>
+            <Typography variant="h4">The Class list, click to go to class panel</Typography>
+            <Paper className={classes.paper}>
+                <List component="nav" aria-label="List teachers classes">
+                    {listTeachersClasses.map((classData: ClassType) => {
+                        return (
+                            <ListItem
+                                button
+                                component={LinkAdapter}
+                                to={{
+                                    pathname: `/dashboard/${classData.id}`,
+                                    state: { classData: classData}
+                                }}
+                            >
+                                <ListItemText primary={classData.classId}/>
+                            </ListItem>
+                        )
+                    })}
+                </List>
+            </Paper>
+        </div>
     )
 };
 export default ListClasses;

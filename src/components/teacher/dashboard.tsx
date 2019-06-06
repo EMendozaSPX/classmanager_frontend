@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import jwt_decode from 'jwt-decode';
+import jwt from 'jsonwebtoken';
 import { Redirect, withRouter, RouteComponentProps } from 'react-router-dom';
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import AppBar from "@material-ui/core/AppBar";
 
+import LinkAdapter from '../link-adapter';
 import Timetable from './timetable';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -27,17 +29,15 @@ const TeacherDashboard = (props: TeacherDashProps) => {
     const authToken = localStorage.getItem('auth-token');
     const classes = useStyles();
 
-    const [ id, setId ] = useState(0);
-    const [ role, setRole ] = useState('');
-    const [ username, setUsername ] = useState('');
-    const [ email, setEmail ] = useState('');
-
-    const decodedToken = jwt_decode(authToken);
-    console.log(decodedToken);
-    setId(decodedToken['id']);
-    setRole(decodedToken['role']);
-    setUsername(decodedToken['username']);
-    setEmail(decodedToken['email']);
+    const _teacherId = (): number => {
+        if (authToken) {
+            const decodedToken = jwt.decode(authToken) as any;
+            console.log(decodedToken);
+            const id: number = decodedToken['id'] as number
+            return id
+        }
+        return 0
+    }
 
     const handleLogout = () => {
         localStorage.removeItem('auth-token');
@@ -46,10 +46,9 @@ const TeacherDashboard = (props: TeacherDashProps) => {
 
     if (!authToken) return <Redirect to="/login" />;
 
-
-
     return (
         <div className="root">
+            <CssBaseline />
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
@@ -58,7 +57,15 @@ const TeacherDashboard = (props: TeacherDashProps) => {
                     <Button color="inherit" onClick={handleLogout}>Logout</Button>
                 </Toolbar>
             </AppBar>
-            <Timetable teacherId={id} />
+            <Timetable teacherId={_teacherId()} />
+            <Button
+                variant="outlined"
+                color="primary"
+                component={LinkAdapter}
+                to="/dashboard/classes"
+            >
+                View a list of classes
+            </Button>
         </div>
     )
 };

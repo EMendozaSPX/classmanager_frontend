@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-apollo-hooks';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
@@ -14,6 +15,22 @@ import TableCell from '@material-ui/core/TableCell';
 
 import { VIEW_TIMETABLE, ViewTimetableType, PeriodType } from '../../queries';
 
+
+const useStyles = makeStyles((theme: Theme) => ({
+    root: {
+        flexGrow: 1,
+        padding: theme.spacing(2)
+    },
+    paper: {
+        width: '100%',
+        marginTop: theme.spacing(3),
+        overflowX: 'auto',
+    },
+    table: {
+        minWidth: 650,
+    }
+}));
+
 interface TimetableProps {
     teacherId: number
 }
@@ -25,6 +42,7 @@ const Timetable = (props: TimetableProps) => {
             teacherId: props.teacherId
         }
     });
+    const classes = useStyles();
 
     const [ dayVal, setDayVal ] = useState(0);
     const handleChange = (e: React.ChangeEvent<{}>, val: number) => {
@@ -33,27 +51,28 @@ const Timetable = (props: TimetableProps) => {
 
     const { viewTimetable } = data;
 
-    if (loading) return <CircularProgress />;
+    if (loading) return <CircularProgress  />;
     if (error) return <Typography variant="h5">{error}</Typography>;
     console.log(viewTimetable);
 
-    const { classes, periods, weekdays } = data['viewTimetable'];
-    console.log(periods);
-    console.log(classes);
-
     return (
-        <div>
+        <div className={classes.root}>
             <AppBar position="static">
-                <Tabs value={dayVal} onChange={handleChange}>
-                    {weekdays.map((val: number) => {
+                <Tabs 
+                    value={dayVal} 
+                    onChange={handleChange}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                >
+                    {viewTimetable.weekdays.map((val: number) => {
                         return (
                             <Tab label={`Day ${val}`} />
                         )
                     })}
                 </Tabs>
             </AppBar>
-            <Paper>
-                <Table size="small">
+            <Paper className={classes.paper}>
+                <Table className={classes.table}>
                     <TableHead>
                         <TableRow>
                             <TableCell>Period</TableCell>
@@ -63,14 +82,14 @@ const Timetable = (props: TimetableProps) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {classes[dayVal].map((name: string, i: number) => {
+                        {viewTimetable.classes[dayVal].map((name: string, i: number) => {
                             return (
-                                <TableRow key={periods[i].periodName}>
+                                <TableRow key={viewTimetable.periods[i].periodName}>
                                     <TableCell component="th" scope="row">
-                                        {periods[i].periodName}
+                                        {viewTimetable.periods[i].periodName}
                                     </TableCell>
-                                    <TableCell align="right">{periods[i].startTime}</TableCell>
-                                    <TableCell align="right">{periods[i].endTime}</TableCell>
+                                    <TableCell align="right">{viewTimetable.periods[i].startTime}</TableCell>
+                                    <TableCell align="right">{viewTimetable.periods[i].endTime}</TableCell>
                                     <TableCell align="right">{name}</TableCell>
                                 </TableRow>
                             )

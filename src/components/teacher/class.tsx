@@ -66,10 +66,7 @@ const ClassView = (props: ClassViewProps) => {
                                     <ListItem
                                         button
                                         component={LinkAdapter}
-                                        to={{
-                                            pathname: `/dashboard/${classData.id}/students/${student.id}`,
-                                            state: { student: student}
-                                        }}
+                                        to={`/dashboard/${classData.id}/students/${student.id}`}
                                     >
                                         <ListItemText primary={student.username}/>
                                     </ListItem>

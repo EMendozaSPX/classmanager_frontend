@@ -5,10 +5,12 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
 
 import Landing from './landing';
-import AdminDashboard from './admin/dashboard';
+import TeacherDashboard from './teacher/dashboard';
+import ClassView from './teacher/class';
 import Login from './login';
 import NoMatch from './no-match';
 
@@ -17,7 +19,7 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('auth-token');
     return {
         headers: {
             ...headers,
@@ -45,14 +47,15 @@ const App = () => {
     return (
         <Router>
             <ApolloProvider client={client}>
-                <MuiThemeProvider theme={theme}>
+                <ThemeProvider theme={theme}>
                     <Switch>
                         <Route exact path="/" component={Landing} />
-                        <Route exact path="/admin" component={AdminDashboard} />
-                        <Route path="/:userType(admin|teacher|student)/login" component={Login} />
+                        <Route exact path="/dashboard" component={TeacherDashboard} />
+                        <Route path="/dashboard/:id" component={ClassView} />
+                        <Route path="/login" component={Login} />
                         <Route component={NoMatch} />
                     </Switch>
-                </MuiThemeProvider>
+                </ThemeProvider>
             </ApolloProvider>
         </Router>
     )

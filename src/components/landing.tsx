@@ -1,39 +1,33 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import { createStyles, withStyles, WithStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import LinkAdapter from './link-adapter';
 
-const styles = (theme: Theme) => createStyles({
+const useStyles = makeStyles((theme: Theme) => ({
     layout: {
         flexGrow: 1,
         width: 'auto',
-        marginLeft: theme.spacing.unit * 3,
-        marginRight: theme.spacing.unit * 3,
-        [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        [theme.breakpoints.up(1100 + theme.spacing(1) * 2)]: {
             width: 1100,
             marginLeft: 'auto',
             marginRight: 'auto'
         }
     },
     container: {
-        marginTop: theme.spacing.unit * 3,
-        padding: `$(theme.spacing.unit * 2)px $(theme.spacing.unit * 3)px $(theme.spacing.unit * 3)px`
+        marginTop: theme.spacing(1),
+        padding: `$(theme.spacing(1))px $(theme.spacing(1))px $(theme.spacing(1))px`
     }
-});
+}));
 
-interface LandingProps extends WithStyles<typeof styles> {}
-
-const LinkToAdmin = (props: any) => <Link to="/admin" {...props} />;
-const LinkToTeacher = (props: any) => <Link to="/teacher" {...props} />;
-const LinkToStudent = (props: any) => <Link to="/student" {...props} />;
-
-const Landing = (props: LandingProps) => {
-    const { classes } = props;
+const Landing = () => {
+    const classes = useStyles();
 
     return (
         <Fragment>
@@ -61,23 +55,10 @@ const Landing = (props: LandingProps) => {
                             <Button
                                 variant="outlined"
                                 color="secondary"
-                                component={LinkToAdmin}
+                                component={LinkAdapter}
+                                to="/dashboard"
                             >
-                                To Admin Panel
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                color="secondary"
-                                component={LinkToTeacher}
-                            >
-                                To Teacher Panel
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                color="secondary"
-                                component={LinkToStudent}
-                            >
-                                To Student Panel
+                                Teacher Dashboard
                             </Button>
                         </div>
                     </Paper>
@@ -87,4 +68,4 @@ const Landing = (props: LandingProps) => {
     )
 };
 
-export default withStyles(styles)(Landing)
+export default Landing;

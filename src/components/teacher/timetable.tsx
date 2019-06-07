@@ -13,7 +13,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
-import { VIEW_TIMETABLE, ViewTimetableType, PeriodType } from '../../queries';
+import { VIEW_TIMETABLE } from '../../queries';
 
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -51,8 +51,8 @@ const Timetable = (props: TimetableProps) => {
 
     const { viewTimetable } = data;
 
-    if (loading) return <CircularProgress size="70" />;
-    if (error) return <Typography variant="h5">{error}</Typography>;
+    if (loading) return <CircularProgress size={100} />;
+    if (error) return <Typography variant="h5">{error.message}</Typography>;
     console.log(viewTimetable);
 
     return (

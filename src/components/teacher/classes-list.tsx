@@ -37,8 +37,8 @@ const ListClasses = (props: ListClassesProps) => {
 
     const { listTeachersClasses } = data;
 
-    if (loading) return <CircularProgress size="70" />;
-    if (error) return <Typography variant="h4">error {error}</Typography>;
+    if (loading) return <CircularProgress size={100} />;
+    if (error) return <Typography variant="h5">{error.message}</Typography>;
 
     return (
         <div className={classes.root}>

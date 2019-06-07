@@ -6,22 +6,34 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import LinkAdapter from '../link-adapter';
-import { UserType } from '../../queries';
+import { StudentType } from '../../queries';
+
+const useStyles = makeStyles((theme: Theme) => ({
+    root: {
+        flexGrow: 1
+    },
+    paper: {
+        padding: theme.spacing(3),
+        textAlign: 'center'
+    }
+}))
 
 interface ClassViewProps extends RouteComponentProps{}
 
 const ClassView = (props: ClassViewProps) => {
+    const classes = useStyles();
     const { classData } = props.location.state;
     console.log(classData);
 
     return (
-        <div>
+        <div className={classes.root}>
             <CssBaseline />
             <Toolbar>
                 <IconButton aria-label="back" component={LinkAdapter} to="/dashboard">
@@ -31,30 +43,35 @@ const ClassView = (props: ClassViewProps) => {
                     Class {classData.classId}
                 </Typography>
             </Toolbar>
-            <Paper>
-                <Typography variant="h6">Teacher</Typography>
-                <Typography variant="body1">{classData.teacher.username}</Typography>
-                <Typography variant="body1">{classData.teacher.email}</Typography>
-            </Paper>
-            <Paper>
-                <List component="nav" aria-label="List Students of Class">
-                    {classData.students.map((student: UserType) => {
-                        return (
-                            <ListItem
-                                button
-                                component={LinkAdapter}
-                                to={{
-                                    pathname: `/dashboard/${classData.id}/${student.id}`,
-                                    state: { student: student}
-                                }}
-                            >
-                                <ListItemText primary={student.username}/>
-                            </ListItem>
-                        )
-                    })}
-                </List>
-            </Paper>
-
+            <Grid
+                container
+                direction="column"
+                spacing={3}
+                justify="center"
+                alignItems="center"
+            >
+                <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h6">Teacher</Typography>
+                        <Typography variant="body1">{classData.teacher.username}</Typography>
+                        <Typography variant="body1">{classData.teacher.email}</Typography>
+                    </Paper>
+                </Grid>
+                <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h6">Students</Typography>
+                        <List component="nav" aria-label="List Students of Class">
+                            {classData.students.map((student: StudentType) => {
+                                return (
+                                    <ListItem button>
+                                        <ListItemText primary={student.studentInfo.username}/>
+                                    </ListItem>
+                                )
+                            })}
+                        </List>
+                    </Paper>
+                </Grid>
+            </Grid>
         </div>
     )
 };

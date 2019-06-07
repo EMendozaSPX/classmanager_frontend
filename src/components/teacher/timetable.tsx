@@ -13,7 +13,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
-import { VIEW_TIMETABLE, ViewTimetableType, PeriodType } from '../../queries';
+import { VIEW_TIMETABLE } from '../../queries';
 
 
 const useStyles = makeStyles((theme: Theme) => ({

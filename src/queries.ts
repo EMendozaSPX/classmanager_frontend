@@ -33,9 +33,12 @@ query ListClasses($teacherId: Int!) {
         }
         students {
             id
-            role
-            username
-            email
+            studentInfo {
+                id
+                role
+                username
+                email
+            }
         }
     }
 }`;
@@ -47,11 +50,16 @@ export interface UserType{
     email: string
 }
 
+export interface StudentType{
+    id: number,
+    studentInfo: UserType
+}
+
 export interface ClassType{
     id: number,
     classId: string,
     teacher: UserType,
-    students: [UserType]
+    students: [StudentType]
 }
 
 export interface PeriodType{

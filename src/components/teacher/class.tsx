@@ -13,7 +13,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import LinkAdapter from '../link-adapter';
-import { UserType } from '../../queries';
+import { StudentType } from '../../queries';
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -61,14 +61,10 @@ const ClassView = (props: ClassViewProps) => {
                     <Paper className={classes.paper}>
                         <Typography variant="h6">Students</Typography>
                         <List component="nav" aria-label="List Students of Class">
-                            {classData.students.map((student: UserType) => {
+                            {classData.students.map((student: StudentType) => {
                                 return (
-                                    <ListItem
-                                        button
-                                        component={LinkAdapter}
-                                        to={`/dashboard/${classData.id}/students/${student.id}`}
-                                    >
-                                        <ListItemText primary={student.username}/>
+                                    <ListItem button>
+                                        <ListItemText primary={student.studentInfo.username}/>
                                     </ListItem>
                                 )
                             })}

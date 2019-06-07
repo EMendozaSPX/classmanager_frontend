@@ -51,7 +51,7 @@ const Timetable = (props: TimetableProps) => {
 
     const { viewTimetable } = data;
 
-    if (loading) return <CircularProgress size="70" />;
+    if (loading) return <CircularProgress size="50" />;
     if (error) return <Typography variant="h5">{error}</Typography>;
     console.log(viewTimetable);
 
